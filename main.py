@@ -1,18 +1,20 @@
 from engine.rule_engine import rule_engine
 from repositories.rules_file import rules_file
-from domain.context import context_evaluation
+from domain.context import context
 
 def main():
-    rules = rules_file("rules.json"),
+    rules = rules_file("rules.json")
     engine = rule_engine(rules)
-    context = context_evaluation(
-        code ="123"
+    con = context(
+        code ="123",
+        data = ["",""]
         )
-    results = engine.run(context)
+    results = engine.run(con)
 
-    for result in results:
-        print("rule name: {result.name}")
-        print("status: {result.apply}")
+    if results is not None:
+        for result in results:
+            print("rule name: {result.name}")
+            print("status: {result.apply}n")
 
  
 if __name__ == "__main__":
