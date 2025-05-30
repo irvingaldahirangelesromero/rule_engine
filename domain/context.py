@@ -1,7 +1,12 @@
-from typing import Any
+from typing import Any,Dict
 
 class context:
-    def __init__(self, code: str, data: Any) -> None:
-        self.code = code
+    def __init__(self, data: Any) -> None:
         self.data = data
-        pass
+
+    def get(self, usr_id: str):
+        pass 
+
+    # c
+
+    

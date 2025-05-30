@@ -6,16 +6,14 @@ def main():
     rules = rules_file("rules.json")
     engine = rule_engine(rules)
     con = context(
-        code ="123",
         data = ["",""]
         )
-    results = engine.run(con)
+    results = engine.evaluate_rules (con)
 
-    if results is not None:
+    if results:
         for result in results:
-            print("rule name: {result.name}")
-            print("status: {result.apply}n")
-
+            print(f"rule name: {result.name}")
+            print(f"status: {result.active}")
  
 if __name__ == "__main__":
     main()
