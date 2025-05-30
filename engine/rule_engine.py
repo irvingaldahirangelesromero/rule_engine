@@ -36,4 +36,3 @@ class rule_engine:
         return True
 
             
-        

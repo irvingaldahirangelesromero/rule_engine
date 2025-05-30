@@ -13,7 +13,7 @@ class rule(IRule):
         self.exceptions = exceptions
         self.restrictions = restrictions
         self.benefits = benefits
-        self.actions = actions
+        self.actions = actions bytes
         
     def run(self, context: context) -> bool:
         for cond in self.conditions:
