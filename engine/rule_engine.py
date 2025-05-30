@@ -10,9 +10,9 @@ from repositories.rules_file import rules_file
 class rule_engine:
     
     def __init__(self, rules: rules_file) -> None:
-        self.rules_path = rules
-        self.rules: List[rule] = []
-        self._json_to_rules()
+        self.rules_path = rules 
+        self.rules: List[rule] = [] 
+        self._json_to_rules() 
 
     def _json_to_rules(self)->None:
         with open(str(self.rules_path),'r') as f:

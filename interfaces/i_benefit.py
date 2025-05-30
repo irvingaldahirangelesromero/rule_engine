@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from domain.context import context
 
-class IRule(ABC):
+class IBenefit(ABC):
 
     @abstractmethod
-    def run(self, context: context) -> bool:
+    def apply(self, context: context) -> None:
         pass
