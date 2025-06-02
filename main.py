@@ -3,28 +3,35 @@ from application.rule_evaluation_service import RuleEvaluationService
 from domain.context import Context
 
 def main():
-    # 1. Preparar repositorio de reglas (archivo JSON)
     rules_repo = FileRulesRepository("rules.json")  
-    rule_service = RuleEvaluationService(rules_repository=rules_repo)
+    rule_service = RuleEvaluationService(rules_repo)
 
-    # 2. Simular datos de contexto (por ejemplo, datos de un pedido)
-    datos_contexto = {
-        "usuario": {"es_cliente_nuevo": True, "email": "juan@example.com"},
-        "pedido": {"total": 150.0}
-        # ... cualquier otra clave que tus criterios necesiten
+    data_context = {
+      "habitaciones": 50,
+      "noches": 3,
+      "segmento": "Bodas Directas",
+      "mercado": "México",
+      "edad": 16,
+      "adultos_por_habitacion": 2,
+      "canal_reserva": "Contrato",
+      "tarifa": "Normal",
+      "propiedad": "Moon Palace Cancún",
+      "fecha_checkin": "2025-07-15",
+      "fecha_reserva": "2025-06-01",
+      "reserva": "nueva",
+      "BW_TW": True
     }
-    con = Context(code="DESC-NUEVO-CLI", data=datos_contexto)
 
-    # 3. Evaluar reglas (sin IA, solo estáticas)
-    reglas_aplicadas = rule_service.evaluate_all(con)
+    con = Context("20 USD", data_context)
 
-    # 4. Mostrar resultados por pantalla
-    if reglas_aplicadas:
-        print("Se aplicaron las siguientes reglas:")
-        for regla in reglas_aplicadas:
-            print(f"  • {regla}")
+    rules_applied = rule_service.evaluate_all(con)
+
+    if rules_applied:
+        print("the following rules were applied:")
+        for rule in rules_applied:
+            print(f"- {rule}")
     else:
-        print("No se aplicó ninguna regla.")
+        print("no rule was applied")
 
 if __name__ == "__main__":
     main()

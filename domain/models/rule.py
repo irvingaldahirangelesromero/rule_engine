@@ -1,15 +1,15 @@
-# Aquí defines la clase Rule, implementando la interfaz IRule.
-# Lógica pura de “evaluar criterios” sin dependencias externas.
-
-from typing import List,Dict,Any,Type,Sequence 
-
+from typing import List,Dict,Any,Type,Sequence
 from interfaces.i_rule import IRule
 from interfaces.i_criterion import ICriterion
 from interfaces.i_benefit import IBenefit
 from interfaces.i_actions import IAction
 from domain.context import Context
 
-class Rule(IRule):
+from domain.implementations.genericCriterion import GenericCriterion
+from domain.implementations.genericBenefit import GenericBenefit
+from domain.implementations.genericAction import GenericAction
+
+class Rule(IRule):# Lógica pura de “evaluar criterios”
     
     def __init__(self, name: str, conditions: Sequence[ICriterion], exceptions: Sequence[ICriterion], restrictions: Sequence[ICriterion], benefits:Sequence[IBenefit],actions: Sequence[IAction]):
         self.name = name
@@ -49,34 +49,34 @@ class Rule(IRule):
         for benefits in self.benefits:
             benefits.apply(context)
 
-
-    @classmethod
+    @classmethod # permite crear una instancia de la clase
     def from_dict(cls: Type["Rule"], data: Dict[str, Any]) -> "Rule":
-        from domain.implementations.genericCriterion import GenericCriterion
-        from domain.implementations.genericBenefit import GenericBenefit
-        from domain.implementations.genericAction import GenericAction
-    # Construye una instancia Rule a partir de un dict con la forma:
-    # {
-    #   "name": "Descuento_nuevo_cliente",
-    #   "conditions": [ { ... }, ... ],
-    #   "exceptions": [ ... ],
-    #   "restrictions": [ ... ],
-    #   "benefits": [ { "description": "..." }, ... ],
-    #   "actions": [ { "type": "...", ... }, ... ]
-    # }
+        conditions = []
+        exceptions = []
+        restrictions = []
+        benefits = []
+        actions = []
+   
+        #   Instanciación de objetos de dominio a partir del producto json.load
+        for c in data.get("conditions", []): # si el json no tiene "conditions" la lista queda vacia
+            condition = GenericCriterion.from_dict(c)
+            conditions.append(condition)
 
-    #   Construir listas de objetos de dominio
-        conditions = [GenericCriterion.from_dict(c) for c in data.get("conditions", [])]
-        exceptions = [GenericCriterion.from_dict(e) for e in data.get("exceptions", [])]
-        restrictions = [GenericCriterion.from_dict(r) for r in data.get("restrictions", [])]
-        benefits = [GenericBenefit.from_dict(b) for b in data.get("benefits", [])]
-        actions = [GenericAction.from_dict(a) for a in data.get("actions", [])]
+        for e in data.get("exceptions", []):
+            exception = GenericCriterion.from_dict(e)
+            exceptions.append(exception)
 
-        return cls(
-            name=data["name"],
-            conditions=conditions,
-            exceptions=exceptions,
-            restrictions=restrictions,
-            benefits=benefits,
-            actions=actions
-        )
+        for r in data.get("restrictions", []):
+            restriction = GenericCriterion.from_dict(r)
+            restrictions.append(restriction)
+
+        for b in data.get("benefits", []):
+            benefit = GenericCriterion.from_dict(b)
+            benefits.append(benefit)
+
+        for a in data.get("actions", []):
+            action = GenericCriterion.from_dict(a)
+            actions.append(action)
+        
+        # construya una instancia completamente funcional de la clase Rule
+        return cls(data["name"], conditions, exceptions, restrictions, benefits, actions)
