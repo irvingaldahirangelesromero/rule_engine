@@ -1,28 +1,30 @@
-from engine.rule_engine import rule_engine
-from repositories.rules_file import rules_file
-from engine.rule import rule
-from domain.context import context
+from infrastructure.repositories.file_rules_repository import FileRulesRepository
+from application.rule_evaluation_service import RuleEvaluationService
+from domain.context import Context
 
 def main():
-    rules = rules_file("rules.json")
+    # 1. Preparar repositorio de reglas (archivo JSON)
+    rules_repo = FileRulesRepository("rules.json")  
+    rule_service = RuleEvaluationService(rules_repository=rules_repo)
 
-    engine = rule_engine(rules)
-    
-    actions_rule_1 = [AplicarDescuento(), EnviarCorreoBienvenida()]
-    rule1 = rule(name="Decuento nuevo cliente", conditions=[...], exceptions=[...], restrictions=[...], benefits=[...], actions = actions_rule_1)   
-    
-    engine.registrar(rule1)
+    # 2. Simular datos de contexto (por ejemplo, datos de un pedido)
+    datos_contexto = {
+        "usuario": {"es_cliente_nuevo": True, "email": "juan@example.com"},
+        "pedido": {"total": 150.0}
+        # ... cualquier otra clave que tus criterios necesiten
+    }
+    con = Context(code="DESC-NUEVO-CLI", data=datos_contexto)
 
-    # con = context(code=["code"],data=datoscontexto)
-    results = engine.evaluate_rules(con)
+    # 3. Evaluar reglas (sin IA, solo estáticas)
+    reglas_aplicadas = rule_service.evaluate_all(con)
 
-    if results:
-        for result in results:
-            print(f"rule name: {result.name}")
-            print(f"status: {result.active}")
+    # 4. Mostrar resultados por pantalla
+    if reglas_aplicadas:
+        print("Se aplicaron las siguientes reglas:")
+        for regla in reglas_aplicadas:
+            print(f"  • {regla}")
+    else:
+        print("No se aplicó ninguna regla.")
 
 if __name__ == "__main__":
     main()
-
-    # c
-    d

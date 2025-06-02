@@ -1,38 +1,39 @@
+# clase RuleEngine que recibe List[Rule]
+
 import json
+
 from typing import List
+from interfaces.i_rule import IRule
+from domain.context import Context
 
-from engine.rule import rule
-from services.actions import run_action
 
-from domain.context import context
-from repositories.rules_file import rules_file
-
-class rule_engine:
+class RuleEngine:
+    # Motor de reglas que recibe una lista de objetos Rule (dominio) y un Context,
+    # evalúa cada regla, ejecuta sus acciones/beneficios y retorna
+    # la lista de reglas que se dispararon.
     
-    def __init__(self, rules: rules_file) -> None:
-        self.rules_path = rules 
-        self.rules: List[rule] = [] 
-        self._json_to_rules() 
+    def __init__(self, rules: List[IRule]) -> None:
+        self.rules: List[IRule] = []  # Recibimos la lista de reglas ya instanciadas que deberá evaluar
 
-    def _json_to_rules(self)->None:
-        with open(str(self.rules_path),'r') as f:
-            rules_json = json.load(f)
-        self.rules = [rule(r['name'],r['priority'],r['combinable'],r['active'], r['conditions'], r['restrictions'], r['exceptions'], r['action']) for r in rules_json]
+    def evaluate_rules(self, context: Context) -> List[IRule]:
+        # Itera sobre todas las reglas, llama a evaluate() y, si es True,
+        # invoca execute().
+        # Retorna la lista de reglas que resultaron aplicables.
+        
+        applied_rules: List[IRule] = []
 
-    def evaluate_rules(self, context:context)->None:   
         for rule in self.rules:
-            if self.rule_is_valid(rule, context):
-                print(f"the rule: '{rule.name}' has detonated the action: '{rule.action}'")
-                run_action(rule.action, context)
+            if rule.evaluate(context): # 1) Evaluar la regla
+                # Si la regla es aplicable, ejecutamos acciones y beneficios
+                print(f"the rule has detonated the actions")
+                rule.execute(context)
+                applied_rules.append(rule)
             else:
                 print(f"invalid rule")
-                  
-    def rule_is_valid(self, rule:rule, context:context) -> bool:
-        for field, condition in rule.conditions.items():
-            if field not in context.data:
-                return False
+                pass
             
-            value_context = context[field]
-        return True
+        return applied_rules
 
-            
+
+                  
+
