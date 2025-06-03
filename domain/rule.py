@@ -5,11 +5,11 @@ from interfaces.i_benefit import IBenefit
 from interfaces.i_actions import IAction
 from domain.context import Context
 
-from domain.implementations.genericCriterion import GenericCriterion
-from domain.implementations.genericBenefit import GenericBenefit
-from domain.implementations.genericAction import GenericAction
+from domain.genericCriterion import GenericCriterion
+from domain.genericBenefit import GenericBenefit
+from domain.genericAction import GenericAction
 
-class Rule(IRule):# Lógica pura de “evaluar criterios”
+class Rule(IRule):
     
     def __init__(self, name: str, conditions: Sequence[ICriterion], exceptions: Sequence[ICriterion], restrictions: Sequence[ICriterion], benefits:Sequence[IBenefit],actions: Sequence[IAction]):
         self.name = name
@@ -18,27 +18,30 @@ class Rule(IRule):# Lógica pura de “evaluar criterios”
         self.restrictions = restrictions
         self.benefits = benefits
         self.actions = actions
+    
+    def __str__(self) -> str:
+        return f"Rule: {self.name}"
 
  # Evalúa únicamente las condiciones y excepciones/restricciones, y devuelve True si la regla es aplicable.
     def evaluate(self, context: Context) -> bool:
         print(f"[Evaluating rule: {self.name}]")
 
-        for cond in self.conditions: # Si algúna condicion NO se cumple, la regla NO aplica
+        for cond in self.conditions: 
             if not cond.evaluate(context):               
-                print(f"[rule: {self.name}] condition '{cond}' not is fulfilled  → the rule no apply")
+                print(f"[rule: {self.name}] condition '{cond}' not is fulfilled : the rule no apply")
                 return False 
                     
-        for exc in self.exceptions: # Verificar excepciones (si se cumple alguna, descartamos la regla)
+        for exc in self.exceptions: 
             if exc.evaluate(context):
-                print(f"[rule: {self.name}] exception '{exc}' not is fulfilled  → the rule no apply")
+                print(f"[rule: {self.name}] exception: '{exc}' : the rule no apply")
                 return False
             
-        for restric in self.restrictions: # Verificar restricciones (si alguna NO se cumple, la regla NO aplica)
+        for restric in self.restrictions: 
             if not restric.evaluate(context):
-                print(f"[rule: {self.name}] restriction '{restric}' not is fulfilled  → the rule no apply")
+                print(f"[rule: {self.name}] restriction '{restric}' not is fulfilled : the rule no apply")
                 return False
 
-        print(f"[rule: {self.name} Aplicable], now apply actions and benefits")
+        print(f"[rule: {self.name} Aplicable], now apply actions and benefits\n")
         return True    
     
 

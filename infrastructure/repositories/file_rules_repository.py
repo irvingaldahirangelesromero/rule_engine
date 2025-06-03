@@ -2,7 +2,7 @@ import json
 from typing import List
 from interfaces.i_rules_file import IRulesFile
 from interfaces.i_rule import IRule
-from domain.models.rule import Rule 
+from domain.rule import Rule 
 
 class FileRulesRepository(IRulesFile):
     def __init__(self, path_file:str):

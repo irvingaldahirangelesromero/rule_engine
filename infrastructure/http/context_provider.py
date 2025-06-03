@@ -1,1 +1,0 @@
-# use requests o httpx para llamar a tu servidor y parsear la respuesta en un objeto Context.

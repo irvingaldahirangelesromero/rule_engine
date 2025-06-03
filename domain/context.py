@@ -1,8 +1,8 @@
 from typing import Dict, Any
 
 class Context:   
-    def __init__(self, code:str, data:Dict[str, Any]): # Solo agrega  datos de la reserva
-        self.code = code # promocode
+    def __init__(self, code:str, data:Dict[str, Any]): 
+        self.code = code 
         self.data = data # diccionario de datos necesarios para evaluar criterios
 
     def get(self, key: str) -> Any: 
