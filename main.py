@@ -5,7 +5,7 @@ from application.rule_evaluation_service import RuleEvaluationService
 from domain.context import Context
 
 def main():
-    rules_repo = FileRulesRepository("rules.json")  
+    rules_repo = FileRulesRepository("promos.json")  
     rule_service = RuleEvaluationService(rules_repo)
 
     data_context = {

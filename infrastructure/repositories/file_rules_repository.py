@@ -16,7 +16,7 @@ class FileRulesRepository(IRulesFile):
             raise
 
         rules: List[IRule] = []
-        for r in data: 
+        for r in data.get("promotions", []):  
             rule = Rule.from_dict(r) # Parseo a objetos Rule
             rules.append(rule)
 

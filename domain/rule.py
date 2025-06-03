@@ -20,7 +20,7 @@ class Rule(IRule):
         self.actions = actions
     
     def __str__(self) -> str:
-        return f"Rule: {self.name}"
+        return self.name
 
  # Evalúa únicamente las condiciones y excepciones/restricciones, y devuelve True si la regla es aplicable.
     def evaluate(self, context: Context) -> bool:
@@ -53,7 +53,7 @@ class Rule(IRule):
             benefits.apply(context)
 
     @classmethod # permite crear una instancia de la clase
-    def from_dict(cls: Type["Rule"], data: Dict[str, Any]) -> "Rule":
+    def from_dict(cls: Type["Rule"], data: Dict[str, Any]) -> "Rule": # Convertir el diccionario en una instancia de Rule.
         conditions = []
         exceptions = []
         restrictions = []
@@ -74,11 +74,11 @@ class Rule(IRule):
             restrictions.append(restriction)
 
         for b in data.get("benefits", []):
-            benefit = GenericCriterion.from_dict(b)
+            benefit = GenericBenefit.from_dict(b)
             benefits.append(benefit)
 
         for a in data.get("actions", []):
-            action = GenericCriterion.from_dict(a)
+            action = GenericAction.from_dict(a)
             actions.append(action)
         
         # construya una instancia completamente funcional de la clase Rule

@@ -1,0 +1,131 @@
+{
+  "promotions": [
+    {
+      "code": "20USDxNoche",
+      "name": "20 USD por noche para grupos sociales",
+      "rules": [ 
+        {
+          "name": "Hab 10+ y dentro de contrato",
+          "conditions": [
+            { "field": "habitaciones", "operator": ">=", "value": 10 },
+            { "field": "canal_reserva", "operator": "==", "value": "Contrato" }
+          ],
+          "exceptions": [
+            { "field": "mercado", "operator": "==", "value": "México" }
+          ],
+          "restrictions": [
+            {
+              "field": "tarifa",
+              "operator": "not in",
+              "value": [
+                "Colaborador",
+                "Travel Agent rate",
+                "FAMS",
+                "Estadías Complementarias",
+                "Estadías compensatorias"
+              ]
+            },
+            {
+              "field": "propiedad",
+              "operator": "!=",
+              "value": "Le Blanc Spa Resorts"
+            }
+          ],
+          "benefits": [
+            { "description": "Crédito de 20 USD por cada noche pagada" }
+          ],
+          "actions": [
+            {
+              "type": "otorgar_credito",
+              "monto": 20,
+              "unidad": "USD",
+              "por": "noche_pagada"
+            }
+          ]
+        },
+        {
+          "name": "Excepción México 50 hab x 3 noches",
+          "conditions": [
+            { "field": "mercado", "operator": "==", "value": "México" },
+            { "field": "habitaciones", "operator": ">=", "value": 50 },
+            { "field": "noches", "operator": ">=", "value": 3 }
+          ],
+          "exceptions": [],
+          "restrictions": [],
+          "benefits": [
+            { "description": "1 Fee de Proveedor" },
+            { "description": "1 carreta para la novia" },
+            { "description": "1 ramo sencillo" },
+            { "description": "1 boutonniere" }
+          ],
+          "actions": []
+        }
+      ]
+    },
+
+    {
+      "code": "FreeKidsTeens",
+      "name": "Niños y adolescentes gratis",
+      "rules": [
+        {
+          "name": "Menor o igual a 17 años y nueva reserva",
+          "conditions": [
+            { "field": "reserva", "operator": "==", "value": "nueva" },
+            { "field": "edad", "operator": "<=", "value": 17 },
+            { "field": "adultos_por_habitacion", "operator": ">=", "value": 1 }
+          ],
+          "exceptions": [
+            {
+              "field": "tarifa",
+              "operator": "==",
+              "value": "Travel Agent rate"
+            }
+          ],
+          "restrictions": [
+            { "field": "propiedad", "operator": "in", "value": ["The Grand"] }
+          ],
+          "benefits": [
+            {
+              "description": "Alojamiento sin cargo adicional para menores < 18"
+            }
+          ],
+          "actions": [{ "type": "descuento_porcentaje", "valor": 100 }]
+        }
+      ]
+    },
+
+    {
+      "code": "HonrarNoSolicitadas",
+      "name": "Honrar promociones vigentes no solicitadas",
+      "rules": [
+        {
+          "name": "Vigencia BW/TW",
+          "conditions": [
+            {
+              "field": "fecha_reserva",
+              "operator": ">=",
+              "value": "2021-05-14"
+            },
+            {
+              "field": "fecha_reserva",
+              "operator": "<=",
+              "value": "2023-08-16"
+            }
+          ],
+          "exceptions": [
+            {
+              "field": "nivel_solicitante",
+              "operator": "in",
+              "value": ["N1", "N2", "N3", "N4"]
+            }
+          ],
+          "restrictions": [],
+          "benefits": [
+            { "description": "Aplicar promoción vigente correspondiente" }
+          ],
+          "actions": [{ "type": "honrar_promocion", "valor": "vigente" }]
+        }
+      ]
+    }
+  ]
+}
