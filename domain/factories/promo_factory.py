@@ -1,13 +1,12 @@
 from typing import List
-from domain.rule import Rule
 from domain.promo import Promo
 from interfaces.i_rule import IRule
 from interfaces.i_promo import IPromo
-from factories.rule_factory import RuleFactory
+from ..factories.rule_factory import RuleFactory
 
 class PromoFactory:
     @staticmethod
-    def dict_to_promo(data: dict)-> IPromo:    
+    def dict_to_promo(data: dict) -> IPromo:    
         code = data["code"] 
         name = data.get("name", "")
         rules_data = data.get("rules",[]) # Obtenemos la lista de reglas desde el diccionario de entrada 'data';

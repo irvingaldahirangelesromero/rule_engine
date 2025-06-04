@@ -2,7 +2,7 @@ import json
 from typing import List
 from interfaces.i_promo import IPromo
 from interfaces.i_promo_file import IPromosFile
-from domain.promo import Promo 
+from domain.factories.promo_factory import PromoFactory
 
 class FilePromoRepository(IPromosFile):
     def __init__(self, path_file:str):
@@ -17,7 +17,7 @@ class FilePromoRepository(IPromosFile):
 
         promos: List[IPromo] = []
         for p in data.get("promotions", []): 
-            promo = Promo.dict_to_promo(p) 
+            promo = PromoFactory.dict_to_promo(p) 
             promos.append(promo)
 
         return promos

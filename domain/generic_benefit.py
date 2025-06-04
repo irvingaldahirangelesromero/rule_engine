@@ -7,7 +7,3 @@ class GenericBenefit(IBenefit):
 
     def apply(self, context: Context) -> None:        
         print(f"[BENEFIT] applying benefits: {self.description}")
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "GenericBenefit":
-        return cls(description=data["description"])
