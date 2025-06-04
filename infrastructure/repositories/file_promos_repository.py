@@ -1,9 +1,8 @@
 import json
-from tkinter import N
-from typing import List, Optional
+from typing import List
 from interfaces.i_promo import IPromo
 from interfaces.i_promo_file import IPromosFile
-from domain.Promo import Promo 
+from domain.promo import Promo 
 
 class FilePromoRepository(IPromosFile):
     def __init__(self, path_file:str):
@@ -18,12 +17,12 @@ class FilePromoRepository(IPromosFile):
 
         promos: List[IPromo] = []
         for p in data.get("promotions", []): 
-            promo = Promo.from_dict(p) 
+            promo = Promo.dict_to_promo(p) 
             promos.append(promo)
 
         return promos
     
-    def get_by_code(self, code: str) -> Optional[IPromo]: #IPromo | None:
+    def get_by_code(self, code: str) -> IPromo | None:
         code = code.strip().lower()
         for promo in self.load_promos():
             if promo.get_codigo().strip().lower() == code:

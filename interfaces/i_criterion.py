@@ -6,5 +6,3 @@ class ICriterion(ABC):
     @abstractmethod
     def evaluate(self, context: Context) -> bool: 
         pass
-
-    

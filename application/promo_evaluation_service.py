@@ -4,7 +4,7 @@ from typing import List
 from interfaces.i_promo import IPromo 
 from interfaces.i_promo_file import IPromosFile
 from domain.context import Context
-from engine.rule_engine_promo import RuleEngine
+from engine.rule_engine import RuleEngine
 
 class PromoEvaluationService:
     def __init__(self, promos_repository: IPromosFile): # Inyección del repositorio e inversión dea dependencia recibiendo una abstracción

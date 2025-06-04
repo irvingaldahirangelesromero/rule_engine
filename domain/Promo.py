@@ -1,8 +1,10 @@
+from __future__ import annotations
 from typing import List, Dict, Any
 from domain.rule import Rule
 from domain.context import Context
 from interfaces.i_rule import IRule
 from interfaces.i_promo import IPromo
+from .factories.rule_factory import RuleFactory
 
 class Promo(IPromo):
     def __init__(self, code: str, name: str, rules: List[IRule]):
@@ -17,7 +19,7 @@ class Promo(IPromo):
         return self.name
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Promo":
+    def dict_to_promo(cls, data: Dict[str, Any]) -> Promo:
         code = data["code"] 
         name = data.get("name", "")
         rules_data = data.get("rules",[]) # Obtenemos la lista de reglas desde el diccionario de entrada 'data';
@@ -25,7 +27,7 @@ class Promo(IPromo):
         rules: List[IRule]= [] # Lista para ir almacenando las instancias de Rule.
 
         for rule_dict in rules_data:            # Iteramos cada diccionario de regla presente en 'rules_data'.
-            rule = Rule.from_dict(rule_dict)    
+            rule = RuleFactory.dict_to_rule(rule_dict)    
             rules.append(rule)                  
 
         return cls(code,name,rules)

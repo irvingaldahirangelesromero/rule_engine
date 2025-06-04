@@ -42,7 +42,3 @@ class GenericCriterion(ICriterion):    # representa una condición evaluable din
             print(f"[Error: {e}")
             return False
 
-
-    @classmethod
-    def from_dict(cls, data: dict) -> "GenericCriterion":  
-        return cls(data["field"], data["operator"], data["value"])
