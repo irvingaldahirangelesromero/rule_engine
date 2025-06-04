@@ -15,3 +15,11 @@ class PromoEvaluationService:
         engine = RuleEngine(promos) # 2) Inicializar motor
 
         return engine.evaluate_rules(context)
+    
+    def evaluate_by_code(self, context: Context)-> List[IPromo]:
+        code  = context.getCode()
+        promo = self.promos_repository.get_by_code(code)
+        if promo and promo.evaluate(context):
+            return [promo]      
+        return[]
+    

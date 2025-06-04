@@ -16,4 +16,4 @@ class RuleEvaluationService:
         engine = RuleEngine(reglas) # 2) Inicializar motor
         
         reglas_aplicadas = engine.evaluate_rules(context) # 3) Evaluar todas las reglas
-        return reglas_aplicadas # Reglas aplicadas y disparadas
+        return reglas_aplicadas # Reglas aplicadas y disparadasñÑ

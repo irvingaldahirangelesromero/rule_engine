@@ -1,3 +1,4 @@
+from tokenize import String
 from typing import List,Dict,Any,Type,Sequence
 from interfaces.i_rule import IRule
 from interfaces.i_criterion import ICriterion
@@ -28,7 +29,7 @@ class Rule(IRule):
 
         for cond in self.conditions: 
             if not cond.evaluate(context):               
-                print(f"[rule: {self.name}] condition '{cond}' not is fulfilled : the rule no apply")
+                print(f"[rule: {self.name}] condition '{  cond}' not is fulfilled : the rule no apply")
                 return False 
                     
         for exc in self.exceptions: 
@@ -41,7 +42,7 @@ class Rule(IRule):
                 print(f"[rule: {self.name}] restriction '{restric}' not is fulfilled : the rule no apply")
                 return False
 
-        print(f"[rule: {self.name} Aplicable], now apply actions and benefits\n")
+        print(f"[the rule: {self.name} is Aplicable], applying actions and benefits\n")
         return True    
     
 

@@ -44,7 +44,7 @@ class Promo(IPromo):
                 all_apply = False
 
         if all_apply:
-            print(f"[Promoción '{self.code}' aplicable]\n")
+            print(f"[Promotion '{self.code}' is aplicable]\n")
         else:
-            print(f"[Promoción '{self.code}' not aplicable]\n")
+            print(f"[Promotion '{self.code}' is not aplicable]\n")
         return all_apply

@@ -5,8 +5,5 @@ class Context:
         self.code = code 
         self.data = data # diccionario de datos necesarios para evaluar criterios
 
-    def get(self, key: str) -> Any: 
-        return self.data.get(key) # valor asociado a la clave
-    
-    def __getitem__(self, key:str) -> Any:
-        return self.data[key] # para acceder directamente a self.data
+    def getCode(self) -> str:
+        return self.code 

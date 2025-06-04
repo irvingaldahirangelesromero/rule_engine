@@ -20,7 +20,9 @@ class GenericCriterion(ICriterion):    # representa una condición evaluable din
         self.operator = operator_   
         self.value = value        
 
-
+    def __str__(self):
+        return f"{self.field} {self.operator} {self.value}"
+    
     def evaluate(self, context: Context) -> bool: # Evalúa si un campo en el Context cumple una condición
         try:
             parts = self.field.split(".")   # nombre del campo a consultarse en el contexto
